@@ -1,13 +1,16 @@
+/*
+
+Covid 19 Data Exploration 
+
+Skills used: Joins, CTE's, Temp Tables, Windows Functions, Aggregate Functions, Creating Views, Converting Data Types
+
+*/
+
 select *
-from COVID_Data_exploration..['covid_data_exploration_ vaccina$']
-where continent is not null
+from COVID_Data_exploration..covid_data_exploration_deaths$
 order by 3,4
 
---select *
---from COVID_Data_exploration..covid_data_exploration_deaths$
---order by 3,4
-
---Data Selection
+--Selecting starting Data
 
 select location,date, total_cases, new_cases, total_deaths, population
 from COVID_Data_exploration..covid_data_exploration_deaths$
@@ -71,7 +74,6 @@ order by 1, 2
 select SUM(new_cases) as total_cases,SUM(cast(new_deaths as int)) as total_deaths, (SUM(cast(new_deaths as int))/SUM(new_cases))*100 as death_percentage
 from COVID_Data_exploration..covid_data_exploration_deaths$
 where continent is not null
---group by date
 order by 1, 2
 
 
@@ -108,7 +110,6 @@ join COVID_Data_exploration..['covid_data_exploration_ vaccina$'] vac
 	on dea.location = vac.location
 	and dea.date = vac.date
 where dea.continent is not null
---order by 2,3
 )
 
 select *, (sum_daily_vac/Population)*100 as total_vaccinated
@@ -137,7 +138,6 @@ join COVID_Data_exploration..['covid_data_exploration_ vaccina$'] vac
 	on dea.location = vac.location
 	and dea.date = vac.date
 where dea.continent is not null
---order by 2,3
 
 Select *, (sum_daily_vac/Population)*100 as percentage_of_vaccinated_population
 From #PercentPopulationVaccinated
@@ -154,4 +154,3 @@ Join COVID_Data_exploration..['covid_data_exploration_ vaccina$'] vac
 	On dea.location = vac.location
 	and dea.date = vac.date
 where dea.continent is not null
---order by 2,3
